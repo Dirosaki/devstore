@@ -5,6 +5,7 @@ import { api } from '@/config/api'
 import { Product } from '@/types/product'
 
 async function getFeaturedProducts(): Promise<Product[]> {
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   const response = await api('/products/featured', {
     next: {
       revalidate: 60 * 60 * 24, // 1 day
@@ -18,10 +19,10 @@ export default async function Home() {
   const [highlightedProduct, ...products] = await getFeaturedProducts()
 
   return (
-    <div className="grid max-h-[860px] grid-cols-9 grid-rows-6 gap-6">
+    <div className="flex-1 grid max-h-[calc(100vh-(44px+32px+24px+32px))] grid-cols-9 grid-rows-6 gap-6 overflow-hidden">
       <Link
         href={`/product/${highlightedProduct.slug}`}
-        className="group relative col-span-6 row-span-6 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-end"
+        className="group relative col-span-6 row-span-6 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-center"
       >
         <Image
           src={highlightedProduct.image}
@@ -29,7 +30,8 @@ export default async function Home() {
           width={920}
           height={920}
           quality={100}
-          className="group-hover:scale-105 transition-transform duration-500"
+          objectFit="contain"
+          className="group-hover:scale-105 transition-transform duration-500 size-full object-contain"
         />
 
         <div className="absolute bottom-28 right-28 h-12 flex items-center gap-2 max-w-[280px] rounded-full border-2 border-zinc-500 bg-black/60 p-1 pl-5">
@@ -49,15 +51,15 @@ export default async function Home() {
         <Link
           key={product.id}
           href={`/product/${product.slug}`}
-          className="group relative col-span-3 row-span-3 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-end"
+          className="group relative col-span-3 row-span-3 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-center"
         >
           <Image
             src={product.image}
             alt=""
-            width={920}
-            height={920}
+            width={460}
+            height={460}
             quality={100}
-            className="group-hover:scale-105 transition-transform duration-500"
+            className="group-hover:scale-105 transition-transform duration-500 size-full object-contain"
           />
 
           <div className="absolute bottom-10 right-10 h-12 flex items-center gap-2 max-w-[280px] rounded-full border-2 border-zinc-500 bg-black/60 p-1 pl-5">
