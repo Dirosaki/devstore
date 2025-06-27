@@ -5,7 +5,11 @@ import { api } from '@/config/api'
 import { Product } from '@/types/product'
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const response = await api('/products/featured')
+  const response = await api('/products/featured', {
+    next: {
+      revalidate: 60 * 60 * 24, // 1 day
+    },
+  })
 
   return response.json()
 }
