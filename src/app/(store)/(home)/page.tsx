@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { api } from '@/config/api'
 import { Product } from '@/types/product'
+import { Metadata } from 'next'
 
 async function getFeaturedProducts(): Promise<Product[]> {
   const response = await api('/products/featured', {
@@ -12,6 +13,10 @@ async function getFeaturedProducts(): Promise<Product[]> {
   })
 
   return response.json()
+}
+
+export const metadata: Metadata = {
+  title: 'Home',
 }
 
 export default async function Home() {
