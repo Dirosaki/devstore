@@ -7,15 +7,15 @@ import { getProduct } from '@/services/get-product'
 import { Product } from '@/types/product'
 
 type ProductProps = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({
   params,
 }: ProductProps): Promise<Metadata> {
-  const { title } = await getProduct(params.slug)
+  const { title } = await getProduct((await params).slug)
 
   return {
     title,
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }: ProductProps) {
-  const product = await getProduct(params.slug)
+  const product = await getProduct((await params).slug)
 
   return (
     <div className="flex-1 relative grid max-h-[calc(100vh-(44px+32px+24px+32px))] grid-cols-3 overflow-hidden">

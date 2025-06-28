@@ -5,9 +5,9 @@ import data from '../data.json'
 
 export async function GET(
   _: NextRequest,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
-  const slug = z.string().parse(params.slug)
+  const slug = z.string().parse((await params).slug)
 
   const product = data.products.find((product) => product.slug === slug)
 
