@@ -1,24 +1,15 @@
-import { AddToCartButton } from '@/components/add-to-cart-button'
-import { api } from '@/config/api'
-import { Product } from '@/types/product'
 import { Metadata } from 'next'
 import Image from 'next/image'
+
+import { AddToCartButton } from '@/components/add-to-cart-button'
+import { api } from '@/config/api'
+import { getProduct } from '@/services/get-product'
+import { Product } from '@/types/product'
 
 type ProductProps = {
   params: {
     slug: string
   }
-}
-
-async function getProduct(slug: string): Promise<Product> {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  const response = await api(`/products/${slug}`, {
-    next: {
-      revalidate: 60 * 60, // 1 hour
-    },
-  })
-
-  return response.json()
 }
 
 export async function generateMetadata({
