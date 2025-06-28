@@ -11,7 +11,6 @@ type SearchProps = {
 }
 
 async function searchProducts(query: string): Promise<Product[]> {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
   const response = await api(`/products/search?q=${query}`, {
     next: {
       revalidate: 60 * 60, // 1 hour
